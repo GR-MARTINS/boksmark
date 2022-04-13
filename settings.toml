@@ -1,0 +1,15 @@
+[default]
+DEBUG = false
+EXTENSIONS = [
+    "ca.mi.nho:init_app",
+]
+
+[development]
+DEBUG = true
+SQLALCHEMY_DATABASE_URI = 'sqlite:///database.db'
+SQLALCHEMY_TRACK_MODIFICATIONS = false
+EXTENSIONS = [
+    "ca.mi.nho:init_app",
+]
+
+[production]
