@@ -1,7 +1,7 @@
 [default]
 DEBUG = false
 EXTENSIONS = [
-    "ca.mi.nho:init_app",
+    "bookmarks.database:init_app",
 ]
 
 [development]
@@ -9,7 +9,10 @@ DEBUG = true
 SQLALCHEMY_DATABASE_URI = 'sqlite:///database.db'
 SQLALCHEMY_TRACK_MODIFICATIONS = false
 EXTENSIONS = [
-    "ca.mi.nho:init_app",
+    "bookmarks.database:init_app",
 ]
 
 [production]
+EXTENSIONS = [
+    "bookmarks.database:init_app",
+]
