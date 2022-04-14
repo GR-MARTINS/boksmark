@@ -2,6 +2,8 @@ flask
 dynaconf
 python-dotenv
 flask-sqlalchemy
+validators
+
 flask-migrate
 flask-marshmallow
 marshmallow-sqlalchemy
