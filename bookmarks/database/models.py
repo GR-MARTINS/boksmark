@@ -23,7 +23,7 @@ class Bookmark(db.Model):
     __tablename__ = "bookmarks"
 
     id = db.Column(db.Integer, primary_key=True)
-    password = db.Column(db.Text(), nullable=True)
+    body = db.Column(db.Text(), nullable=True)
     url = db.Column(db.Text(), nullable=False)
     short_url = db.Column(db.String(3), nullable=False)
     visits = db.Column(db.Integer, default=0)
@@ -35,7 +35,7 @@ class Bookmark(db.Model):
         characters = string.digits + string.ascii_letters
         picked_chars = ''.join(random.choices(characters, k=3))
 
-        link = self.query.filterby(short_url=picked_chars).first()
+        link = self.query.filter_by(short_url=picked_chars).first()
 
         if link:
             pass
