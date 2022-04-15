@@ -1,13 +1,8 @@
 from flask import Blueprint, request, jsonify
-from bookmarks.constants.http_status_code import (
-    HTTP_400_BAD_REQUEST,
-    HTTP_409_CONFLICT,
-    HTTP_201_CREATED
-)
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
 import validators
-from bookmarks.models import User
+from bookmarks.database.models import User
 from bookmarks.database import db
 
 auth = Blueprint("auth", __name__, url_prefix="/api/v1/auth")
@@ -48,7 +43,7 @@ def register():
     db.session.commit()
 
     return jsonify({
-        'message': "User created"
+        'message': "User created",
         'user': {
             'username': username, 'email': email
         }
