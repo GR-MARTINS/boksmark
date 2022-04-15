@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash
 import validators
 from bookmarks.database.models import User
 from bookmarks.database import db
+from bookmarks.constants import HTTP_400_BAD_REQUEST, HTTP_409_CONFLICT, HTTP_201_CREATED
 
 auth = Blueprint("auth", __name__, url_prefix="/api/v1/auth")
 
@@ -14,7 +15,7 @@ def register():
     email = request.json['email']
     password = request.json['password']
 
-    if len(password) < 6 or password.isalnum():
+    if len(password) < 6:
         return jsonify({'error': 'Password is too short'}), HTTP_400_BAD_REQUEST
 
     if password.isalnum():
