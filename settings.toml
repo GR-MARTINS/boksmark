@@ -12,6 +12,7 @@ EXTENSIONS = [
     "bookmarks.database:init_app",
     "bookmarks.database.migrate:init_app",
     "bookmarks.blueprints:init_app",
+    "bookmarks.jwt_manager:init_app",
 ]
 
 [production]
