@@ -2,9 +2,10 @@ from flask import Blueprint, request, jsonify
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
 import validators
+from flask_jwt_extended import create_access_token, create_refresh_token
 from bookmarks.database.models import User
 from bookmarks.database import db
-from bookmarks.constants import HTTP_400_BAD_REQUEST, HTTP_409_CONFLICT, HTTP_201_CREATED
+from bookmarks.constants import HTTP_400_BAD_REQUEST, HTTP_409_CONFLICT, HTTP_201_CREATED, HTTP_401_UNAUTHORIZED, HTTP_200_OK
 
 auth = Blueprint("auth", __name__, url_prefix="/api/v1/auth")
 
@@ -50,7 +51,41 @@ def register():
         }
     }), HTTP_201_CREATED
 
-@auth.get('/me')
 
+@auth.post('/login')
+def login():
+    email = request.json.get('email','')
+    password = request.json.get('password','')
+
+    user = User.query.filter_by(email=email).first()
+
+    if user:
+        is_pass_correct = check_password_hash(user.password, password)
+
+        if is_pass_correct:
+            refresh = create_refresh_token(identity=user.id)
+            access = create_refresh_token(identity=user.id)
+
+            return jsonify({
+                'user':{
+                    'refresh': refresh,
+                    'access': access,
+                    'username': user.username,
+                    'email': user.email
+                }
+            }), HTTP_200_OK
+        return jsonify({
+            'error': 'Invalid password'
+        }), HTTP_401_UNAUTHORIZED
+
+    return jsonify({
+            'error': 'Invalid email'
+        }), HTTP_401_UNAUTHORIZED
+
+
+
+
+
+@auth.get('/me')
 def me():
     return {"user": "me"}
