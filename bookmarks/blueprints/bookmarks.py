@@ -10,10 +10,8 @@ bookmarks = Blueprint("bookmaks", __name__, url_prefix="/api/v1/bookmarks")
 
 
 @bookmarks.post('/')
-@bookmarks.get('/')
-@bookmarks.get('/<int:id>')
 @jwt_required()
-def get_all(id=None):
+def create():
     current_user = get_jwt_identity()
 
     if request.method == 'POST':
@@ -44,20 +42,44 @@ def get_all(id=None):
             'updated_at': bookmark.updated_at
         }), HTTP_201_CREATED
 
-    if request.method == 'GET':
-        if id:
-            current_user = get_jwt_identity()
-            bookmark = Bookmark.query.filter_by(
-                user_id=current_user,
-                id=id
-            ).first()
 
-            if not bookmark:
-                return jsonify({
-                    'message': 'Item not found'
-                }), HTTP_406_NOT_ACCEPTABLE
+@bookmarks.get('/')
+@bookmarks.get('/<int:id>')
+@jwt_required()
+def get(id=None):
+    current_user = get_jwt_identity()
+    if id:
+        bookmark = Bookmark.query.filter_by(
+            user_id=current_user,
+            id=id
+        ).first()
 
+        if not bookmark:
             return jsonify({
+                'message': 'Item not found'
+            }), HTTP_406_NOT_ACCEPTABLE
+
+        return jsonify({
+            'id': bookmark.id,
+            'url': bookmark.url,
+            'short_url': bookmark.short_url,
+            'visit': bookmark.visits,
+            'body': bookmark.body,
+            'create_at': bookmark.create_at,
+            'updated_at': bookmark.updated_at
+        }), HTTP_200_OK
+
+    else:
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', 1, type=int)
+        bookmarks = Bookmark.query.filter_by(
+            user_id=current_user
+        ).paginate(page=page, per_page=per_page)
+
+        data = []
+
+        for bookmark in bookmarks.items:
+            data.append({
                 'id': bookmark.id,
                 'url': bookmark.url,
                 'short_url': bookmark.short_url,
@@ -65,37 +87,18 @@ def get_all(id=None):
                 'body': bookmark.body,
                 'create_at': bookmark.create_at,
                 'updated_at': bookmark.updated_at
-            }), HTTP_200_OK
-        else:
-            page = request.args.get('page', 1, type=int)
-            per_page = request.args.get('per_page', 1, type=int)
-            bookmarks = Bookmark.query.filter_by(
-                user_id=current_user
-            ).paginate(page=page, per_page=per_page)
+            })
 
-            data = []
+        meta = {
+            'page': bookmarks.page,
+            'pages': bookmarks.pages,
+            'total_count': bookmarks.total,
+            'prev_page': bookmarks.prev_num,
+            'next_page': bookmarks.next_num,
+            'has_next': bookmarks.has_next,
+            'has_prev': bookmarks.has_prev
+        }
 
-            for bookmark in bookmarks.items:
-                data.append({
-                    'id': bookmark.id,
-                    'url': bookmark.url,
-                    'short_url': bookmark.short_url,
-                    'visit': bookmark.visits,
-                    'body': bookmark.body,
-                    'create_at': bookmark.create_at,
-                    'updated_at': bookmark.updated_at
-                })
-
-            meta = {
-                'page': bookmarks.page,
-                'pages': bookmarks.pages,
-                'total_count': bookmarks.total,
-                'prev_page': bookmarks.prev_num,
-                'next_page': bookmarks.next_num,
-                'has_next': bookmarks.has_next,
-                'has_prev': bookmarks.has_prev
-            }
-
-            return jsonify({
-                'data': data, 'meta': meta
-            }), HTTP_200_OK
+        return jsonify({
+            'data': data, 'meta': meta
+        }), HTTP_200_OK
