@@ -1,11 +1,27 @@
-from flask import Blueprint, request, jsonify
+import validators
+from flask import (
+    Blueprint,
+    request,
+    jsonify
+)
+from flask_jwt_extended import (
+    create_access_token,
+    create_refresh_token,
+    get_jwt_identity,
+    jwt_required
+)
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
-import validators
-from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
-from bookmarks.database.models import User
+from bookmarks.constants import (
+    HTTP_200_OK,
+    HTTP_201_CREATED,
+    HTTP_400_BAD_REQUEST,
+    HTTP_401_UNAUTHORIZED,
+    HTTP_409_CONFLICT
+)
 from bookmarks.database import db
-from bookmarks.constants import HTTP_400_BAD_REQUEST, HTTP_409_CONFLICT, HTTP_201_CREATED, HTTP_401_UNAUTHORIZED, HTTP_200_OK
+from bookmarks.database.models import User
+
 
 auth = Blueprint("auth", __name__, url_prefix="/api/v1/auth")
 
