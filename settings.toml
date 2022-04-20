@@ -15,9 +15,12 @@ EXTENSIONS = [
     "bookmarks.jwt_manager:init_app",
     "bookmarks.redirect_to_url:init_app",
     "bookmarks.error_handler:init_app",
+    "bookmarks.docs:init_app",
 ]
+SWAGGER = {title='Bookmarks API', uiversion=3}
 
 [production]
 EXTENSIONS = [
     "bookmarks.database:init_app",
+
 ]
