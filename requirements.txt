@@ -25,5 +25,6 @@ PyYAML==6.0
 six==1.16.0
 SQLAlchemy==1.4.35
 validators==0.18.2
+waitress==2.1.1
 Werkzeug==2.1.1
 zipp==3.8.0
