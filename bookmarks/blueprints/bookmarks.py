@@ -1,9 +1,22 @@
-from flask import Blueprint, request, jsonify
 import validators
-from bookmarks.constants import HTTP_400_BAD_REQUEST, HTTP_201_CREATED, HTTP_200_OK, HTTP_406_NOT_ACCEPTABLE, HTTP_204_NO_CONTENT
-from bookmarks.database.models import Bookmark
+from flask import (
+    Blueprint,
+    request,
+    jsonify
+)
+from flask_jwt_extended import (
+    get_jwt_identity,
+    jwt_required
+)
+from bookmarks.constants import (
+    HTTP_200_OK,
+    HTTP_204_NO_CONTENT,
+    HTTP_201_CREATED,
+    HTTP_400_BAD_REQUEST,
+    HTTP_406_NOT_ACCEPTABLE
+)
 from bookmarks.database import db
-from flask_jwt_extended import get_jwt_identity, jwt_required
+from bookmarks.database.models import Bookmark
 
 
 bookmarks = Blueprint("bookmaks", __name__, url_prefix="/api/v1/bookmarks")
