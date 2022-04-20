@@ -1,7 +1,7 @@
+import random
+import string
 from datetime import datetime
 from bookmarks.database import db
-import string
-import random
 
 
 class User(db.Model):
