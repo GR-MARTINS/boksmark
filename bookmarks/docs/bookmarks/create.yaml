@@ -1,0 +1,32 @@
+Create bookmark
+---
+tags:
+  - Bookmarks
+parameters:
+  - in: header
+    name: Authorization
+    required: true
+    
+  - name: body
+    description: The body should contain the bookmark registration data
+    in: body
+    required: true
+    schema:
+      type: object
+      required:
+        - "url"
+        - "body"
+      properties:
+        url:
+          type: "url"
+          example: "http://www.site.com.br"
+        body:
+          type: "body"
+          example: "i'm  a site description"
+
+responses:
+  201:
+    description: When a bookmark is created
+
+  400:
+    description: When registration is not validated
