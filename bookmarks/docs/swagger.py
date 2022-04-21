@@ -12,9 +12,7 @@ template = {
         "termsOfService": "www.twitter.com/deve",
         "version": "1.0"
     },
-    "host": [
-        "https://booksmark.herokuapp.com"
-    ]
+    "host": "https://booksmark.herokuapp.com",
     "basePath": "/",  # base bash for blueprint registration
     "schemes": [
         "http",
