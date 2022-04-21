@@ -1,8 +1,8 @@
-"""first migration
+"""PostgreSQL Migrate
 
-Revision ID: e7f63d065b93
+Revision ID: 1b6d55cf975b
 Revises: 
-Create Date: 2022-04-14 21:18:51.842000
+Create Date: 2022-04-21 11:42:38.004879
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e7f63d065b93'
+revision = '1b6d55cf975b'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -31,7 +31,7 @@ def upgrade():
     )
     op.create_table('bookmarks',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('password', sa.Text(), nullable=True),
+    sa.Column('body', sa.Text(), nullable=True),
     sa.Column('url', sa.Text(), nullable=False),
     sa.Column('short_url', sa.String(length=3), nullable=False),
     sa.Column('visits', sa.Integer(), nullable=True),
