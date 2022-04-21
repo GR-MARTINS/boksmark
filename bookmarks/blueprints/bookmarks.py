@@ -25,6 +25,7 @@ bookmarks = Blueprint("bookmaks", __name__, url_prefix="/api/v1/bookmarks")
 
 @bookmarks.post('/')
 @jwt_required()
+@swag_from('../docs/bookmarks/create.yaml')
 def create():
     current_user = get_jwt_identity()
 
