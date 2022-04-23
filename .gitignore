@@ -152,7 +152,7 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# dynaconf
+# dynaconf config
 .secrets.toml
 
 # PyCharm
