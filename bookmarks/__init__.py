@@ -1,8 +1,8 @@
 from flask import Flask
-from bookmarks import config
+from bookmarks.ext import dynaconf
 
 
 def create_app():
     app = Flask(__name__)
-    config.init_app(app)
+    dynaconf.init_app(app)
     return app

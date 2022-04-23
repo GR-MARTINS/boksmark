@@ -16,8 +16,8 @@ from bookmarks.constants import (
     HTTP_400_BAD_REQUEST,
     HTTP_406_NOT_ACCEPTABLE
 )
-from bookmarks.database import db
-from bookmarks.database.models import Bookmark
+from bookmarks.ext.sqlalchemy import db
+from bookmarks.models.bookmarks import Bookmark
 
 
 bookmarks = Blueprint("bookmaks", __name__, url_prefix="/api/v1/bookmarks")

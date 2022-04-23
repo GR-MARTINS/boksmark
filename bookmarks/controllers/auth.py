@@ -20,8 +20,8 @@ from bookmarks.constants import (
     HTTP_401_UNAUTHORIZED,
     HTTP_409_CONFLICT
 )
-from bookmarks.database import db
-from bookmarks.database.models import User
+from bookmarks.ext.sqlalchemy import db
+from bookmarks.models.users import User
 
 
 auth = Blueprint("auth", __name__, url_prefix="/api/v1/auth")
@@ -35,25 +35,37 @@ def register():
     password = request.json['password']
 
     if len(password) < 6:
-        return jsonify({'error': 'Password is too short'}), HTTP_400_BAD_REQUEST
+        return jsonify({
+            'error': 'Password is too short'
+        }), HTTP_400_BAD_REQUEST
 
     if password.isalnum():
-        return jsonify({'error': 'Password must contain letters'}), HTTP_400_BAD_REQUEST
+        return jsonify({
+            'error': 'Password must contain letters'
+        }), HTTP_400_BAD_REQUEST
 
     if len(username) < 3:
         return jsonify({'error': 'User is too short'}), HTTP_400_BAD_REQUEST
 
     if not username.isalnum() or " " in username:
-        return jsonify({'error': 'User must be alphanumeric, there must also be no spaces'}), HTTP_400_BAD_REQUEST
+        return jsonify({
+            'error': 'User must be alphanumeric, there must also be no spaces'
+        }), HTTP_400_BAD_REQUEST
 
     if User.query.filter_by(username=username).first() is not None:
-        return jsonify({'error': 'User is not available'}), HTTP_409_CONFLICT        
+        return jsonify({
+            'error': 'User is not available'
+        }), HTTP_409_CONFLICT
 
     if not validators.email(email):
-        return jsonify({'error': 'E-mail is not valid'}), HTTP_400_BAD_REQUEST
+        return jsonify({
+            'error': 'E-mail is not valid'
+        }), HTTP_400_BAD_REQUEST
 
     if User.query.filter_by(email=email).first() is not None:
-        return jsonify({'error': 'Email is not available'}), HTTP_409_CONFLICT        
+        return jsonify({
+            'error': 'Email is not available'
+        }), HTTP_409_CONFLICT
 
     password_hash = generate_password_hash(password)
 
@@ -73,8 +85,8 @@ def register():
 @auth.post('/login')
 @swag_from('../docs/auth/login.yaml')
 def login():
-    email = request.json.get('email','')
-    password = request.json.get('password','')
+    email = request.json.get('email', '')
+    password = request.json.get('password', '')
 
     user = User.query.filter_by(email=email).first()
 
@@ -86,7 +98,7 @@ def login():
             access = create_access_token(identity=user.id)
 
             return jsonify({
-                'user':{
+                'user': {
                     'refresh': refresh,
                     'access': access,
                     'username': user.username,
@@ -98,8 +110,8 @@ def login():
         }), HTTP_401_UNAUTHORIZED
 
     return jsonify({
-            'error': 'Invalid email'
-        }), HTTP_401_UNAUTHORIZED
+        'error': 'Invalid email'
+    }), HTTP_401_UNAUTHORIZED
 
 
 @auth.get('/me')
@@ -113,6 +125,7 @@ def me():
         'username': user.username,
         'email': user.email
     }), HTTP_200_OK
+
 
 @auth.get('/token/refresh')
 @jwt_required(refresh=True)

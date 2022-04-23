@@ -1,5 +1,5 @@
-from bookmarks.database.models import Bookmark
-from bookmarks.database import db
+from bookmarks.models.bookmarks import Bookmark
+from bookmarks.ext.sqlalchemy import db
 from flasgger import swag_from
 from flask import redirect
 
@@ -7,7 +7,7 @@ from flask import redirect
 def init_app(app):
 
     @app.get('/<short_url>')
-    @swag_from('./docs/short_url.yaml')
+    @swag_from('../docs/short_url.yaml')
     def redirect_to_url(short_url):
         bookmark = Bookmark.query.filter_by(short_url=short_url).first_or_404()
 

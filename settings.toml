@@ -1,34 +1,38 @@
 [default]
 DEBUG = false
 EXTENSIONS = [
-    "bookmarks.database:init_app",
+    "bookmarks.ext.sqlalchemy:init_app",
+    "bookmarks.ext.migrate:init_app",
+    "bookmarks.controllers:init_app",
+    "bookmarks.ext.jwt_manager:init_app",
+    "bookmarks.services.redirect_to_url:init_app",
+    "bookmarks.services.error_handler:init_app",
+    "bookmarks.ext.flasgger:init_app",
 ]
 
 [development]
 DEBUG = true
-SQLALCHEMY_DATABASE_URI = 'postgresql://gqmpdkznhymvrs:94de9ff5431166f339c68cd451fb7f76dd7cb366ce0b14761db758dd2e85a3a4@ec2-54-80-122-11.compute-1.amazonaws.com:5432/d9p5qucpbp9ec'
 SQLALCHEMY_TRACK_MODIFICATIONS = false
 EXTENSIONS = [
-    "bookmarks.database:init_app",
-    "bookmarks.database.migrate:init_app",
-    "bookmarks.blueprints:init_app",
-    "bookmarks.jwt_manager:init_app",
-    "bookmarks.redirect_to_url:init_app",
-    "bookmarks.error_handler:init_app",
-    "bookmarks.docs:init_app",
+    "bookmarks.ext.sqlalchemy:init_app",
+    "bookmarks.ext.migrate:init_app",
+    "bookmarks.controllers:init_app",
+    "bookmarks.ext.jwt_manager:init_app",
+    "bookmarks.services.redirect_to_url:init_app",
+    "bookmarks.services.error_handler:init_app",
+    "bookmarks.ext.flasgger:init_app",
 ]
 SWAGGER = {title='Bookmarks API', uiversion=3}
 
 [production]
-SQLALCHEMY_DATABASE_URI = 'postgresql://gqmpdkznhymvrs:94de9ff5431166f339c68cd451fb7f76dd7cb366ce0b14761db758dd2e85a3a4@ec2-54-80-122-11.compute-1.amazonaws.com:5432/d9p5qucpbp9ec'
 SQLALCHEMY_TRACK_MODIFICATIONS = false
 EXTENSIONS = [
-    "bookmarks.database:init_app",
-    "bookmarks.database.migrate:init_app",
-    "bookmarks.blueprints:init_app",
-    "bookmarks.jwt_manager:init_app",
-    "bookmarks.redirect_to_url:init_app",
-    "bookmarks.error_handler:init_app",
-    "bookmarks.docs:init_app",
+    "bookmarks.ext.sqlalchemy:init_app",
+    "bookmarks.ext.migrate:init_app",
+    "bookmarks.controllers:init_app",
+    "bookmarks.ext.jwt_manager:init_app",
+    "bookmarks.services.redirect_to_url:init_app",
+    "bookmarks.services.error_handler:init_app",
+    "bookmarks.ext.flasgger:init_app",
 ]
 SWAGGER = {title='Bookmarks API', uiversion=3}
