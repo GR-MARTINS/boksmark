@@ -6,6 +6,6 @@ class Login(FlaskForm):
     email = wtf.EmailField(
         "E-mail", [wtf.validators.DataRequired(), wtf.validators.Email()]
     )
-    passwd = wtf.PasswordField(
+    password = wtf.PasswordField(
         "Senha", [wtf.validators.DataRequired()]
     )
