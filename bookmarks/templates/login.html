@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="jumbotron">
+      <h1>Welcome to Bookmark</h1>
+      <p>...</p>
+      <p>
+        <a class="btn btn-secondary btn-lg" href="{{ url_for( 'site.login' ) }}" role="button">Sign In</a>
+        <a class="btn btn-primary btn-lg" href="{{ url_for( 'site.register' ) }}" role="button">Sign Up</a>
+
+      </p>
+    </div>
+       
+
+      <form class='form-horizontal' action='{{url_for("site.login")}}' method='POST' enctype='multipart/form-data'>
+        {{ form.csrf_token }}
+          <div class="form-group">
+            {{ form.email.label(class="col-lg-2 control-label") }}
+            <div class="col-lg-3">
+              {{ form.email(class="form-control", placeholder="Email") }}
+            </div>
+          </div>
+          
+          <div class="form-group">
+            {{ form.password.label(class="col-lg-2 control-label") }}
+            <div class="col-lg-3">
+              {{ form.password(class="form-control", placeholder="Password") }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+              <button type="reset" class="btn btn-default">Cancel</button>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+      </form>  
+
+
+      </div>
+    </div>
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  </body>
+</html>
+
+
+
+
