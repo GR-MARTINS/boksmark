@@ -25,7 +25,7 @@ bookmarks = Blueprint("bookmaks", __name__, url_prefix="/api/v1/bookmarks")
 
 @bookmarks.post('/')
 @jwt_required()
-@swag_from('../docs/bookmarks/create.yaml')
+@swag_from('../../docs/bookmarks/create.yaml')
 def create():
     current_user = get_jwt_identity()
 
@@ -190,7 +190,7 @@ def delete(id):
 
 @bookmarks.get('/stats')
 @jwt_required()
-@swag_from('../docs/bookmarks/stats.yaml')
+@swag_from('../../docs/bookmarks/stats.yaml')
 def get_stats():
     current_user = get_jwt_identity()
     data = []
