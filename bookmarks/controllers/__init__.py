@@ -1,5 +1,5 @@
-from bookmarks.controllers.auth import auth
-from bookmarks.controllers.bookmarks import bookmarks
+from bookmarks.controllers.api.auth import auth
+from bookmarks.controllers.api.bookmarks import bookmarks
 
 
 def init_app(app):
