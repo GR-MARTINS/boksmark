@@ -17,7 +17,7 @@ from bookmarks.constants import (
     HTTP_406_NOT_ACCEPTABLE
 )
 from bookmarks.ext.sqlalchemy import db
-from bookmarks.models.bookmarks import Bookmark
+from bookmarks.models.tables.bookmarks import Bookmark
 
 
 bookmarks = Blueprint("bookmaks", __name__, url_prefix="/api/v1/bookmarks")

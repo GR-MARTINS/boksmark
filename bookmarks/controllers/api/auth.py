@@ -21,7 +21,7 @@ from bookmarks.constants import (
     HTTP_409_CONFLICT
 )
 from bookmarks.ext.sqlalchemy import db
-from bookmarks.models.users import User
+from bookmarks.models.tables.users import User
 
 
 auth = Blueprint("auth", __name__, url_prefix="/api/v1/auth")

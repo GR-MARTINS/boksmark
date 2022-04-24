@@ -1,4 +1,4 @@
-from bookmarks.models.bookmarks import Bookmark
+from bookmarks.models.tables.bookmarks import Bookmark
 from bookmarks.ext.sqlalchemy import db
 from flasgger import swag_from
 from flask import redirect
