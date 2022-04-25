@@ -29,6 +29,7 @@
         <div class="wrap-login col-md-4 col-md-offset-4">
           <h2 style="margin-bottom: 30px;">Login</h2>
           <form>
+            {{ form.csrf_token }}
             <div class="form-group">
               {{ form.email.label(class="control-label") }}
               {{ form.email(class="form-control", placeholder="Email") }}
