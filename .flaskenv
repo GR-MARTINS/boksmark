@@ -1,3 +1,3 @@
 export FLASK_ENV=production
 export FLASK_APP=bookmarks
-export SQLALCHEMY_DATABASE_URI=postgresql://gqmpdkznhymvrs:94de9ff5431166f339c68cd451fb7f76dd7cb366ce0b14761db758dd2e85a3a4@ec2-54-80-122-11.compute-1.amazonaws.com:5432/d9p5qucpbp9ec
+
