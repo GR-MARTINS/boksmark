@@ -95,7 +95,7 @@ def get(id=None):
         per_page = request.args.get('per_page', 5, type=int)
         bookmarks = Bookmark.query.filter_by(
             user_id=current_user
-        ).paginate(page=page, per_page=per_page)
+        ).order_by(Bookmark.id).paginate(page=page, per_page=per_page)
 
         data = []
 
