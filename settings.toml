@@ -11,6 +11,7 @@ EXTENSIONS = [
     "bookmarks.ext.flasgger:init_app",
 ]
 SWAGGER = {title='Bookmarks API', uiversion=3}
+JWT_ACCESS_TOKEN_EXPIRES = 999999999
 
 [development]
 DEBUG = true
