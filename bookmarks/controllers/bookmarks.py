@@ -18,6 +18,7 @@ from bookmarks.constants import (
 )
 from bookmarks.ext.sqlalchemy import db
 from bookmarks.models.tables.bookmarks import Bookmark
+from bookmarks.models.tables.visits import Visit
 
 
 bookmarks = Blueprint("bookmaks", __name__, url_prefix="/api/v1/bookmarks")
@@ -36,7 +37,7 @@ def create():
 
         if not validators.url(url):
             return jsonify({
-                'error': 'Enter a valid URL'
+                'error': 'Enter a valid URL! example: "http://www.yoursite.com"'
             }), HTTP_400_BAD_REQUEST
 
         if Bookmark.query.filter_by(url=url).first():
@@ -197,11 +198,16 @@ def get_stats():
     items = Bookmark.query.filter_by(user_id=current_user).all()
 
     for item in items:
+        visits = Visit.query.filter_by(bookmark_id=item.id).all()
+        visit_data = []
+        for visit in visits:
+            visit_data.append(visit.visiting_hours)
         new_link = {
-            'visits': item.visits,
+            'total_clicks': item.visits,
             'url': item.url,
             'id': item.id,
-            'short_url': item.short_url
+            'short_url': item.short_url,
+            'visits': visit_data
         }
         data.append(new_link)
 
