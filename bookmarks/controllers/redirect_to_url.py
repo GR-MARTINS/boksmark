@@ -1,4 +1,5 @@
 from bookmarks.models.tables.bookmarks import Bookmark
+from bookmarks.models.tables.visits import Visit
 from bookmarks.ext.sqlalchemy import db
 from flasgger import swag_from
 from flask import redirect
@@ -13,6 +14,8 @@ def init_app(app):
 
         if bookmark:
             bookmark.visits = bookmark.visits + 1
+            visit = Visit(bookmark_id=bookmark.id)
+            db.session.add(visit)
             db.session.commit()
 
             return redirect(bookmark.url)
