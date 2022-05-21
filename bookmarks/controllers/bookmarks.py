@@ -16,10 +16,11 @@ from bookmarks.constants import (
     HTTP_400_BAD_REQUEST,
     HTTP_406_NOT_ACCEPTABLE
 )
+from sqlalchemy import extract
 from bookmarks.ext.sqlalchemy import db
 from bookmarks.models.tables.bookmarks import Bookmark
 from bookmarks.models.tables.visits import Visit
-
+from bookmarks.controllers.stats import monthly_stats, weekly_stats, last_days
 
 bookmarks = Blueprint("bookmaks", __name__, url_prefix="/api/v1/bookmarks")
 
@@ -192,7 +193,7 @@ def delete(id):
 @bookmarks.get('/stats')
 @jwt_required()
 @swag_from('../docs/bookmarks/stats.yaml')
-def get_stats():
+def get_all_stats():
     current_user = get_jwt_identity()
     data = []
     items = Bookmark.query.filter_by(user_id=current_user).all()
@@ -214,3 +215,19 @@ def get_stats():
     return jsonify({
         'data': data
     }), HTTP_200_OK
+
+
+@bookmarks.get('/stats/<id>')
+def get_one_stats(id=None):
+    months = monthly_stats(5, id)
+    weeks = weekly_stats(id)
+    last_7_days = last_days(7, id)
+    last_30_days = last_days(30, id)
+    return jsonify(
+        {
+            "monthly_stats": months,
+            "weekly_stats": weeks,
+            "last_7_days": last_7_days,
+            "last_30_days": last_30_days
+        }
+    )
