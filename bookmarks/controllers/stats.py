@@ -51,3 +51,40 @@ def monthly_stats(current_month, bookmark_id):
     return data
 
 
+def weekly_stats(bookmark_id):
+    today = datetime.today()
+    correction_value = int(today.strftime("%u"))
+    week = []
+
+    if correction_value == 7:
+        week.append(today)
+        week.append(today + timedelta(6))
+    else:
+        week.append(
+            today - timedelta(int(today.strftime("%u")))
+        )
+        week.append(
+            today + timedelta(6 - int(today.strftime("%u")))
+        )
+
+    weeks = []
+
+    for i in range(12):
+        visit = Visit.query.filter(
+            Visit.visiting_hours.between(
+                week[0], week[1]
+            ),
+            Visit.bookmark_id == bookmark_id
+        ).all()
+        weeks.append(
+            {
+                "week": week[0].strftime("%U"),
+                "number_visits": len(visit)
+            }
+        )
+        week[0] = week[0] - timedelta(7)
+        week[1] = week[1] - timedelta(7)
+
+    return weeks
+
+
