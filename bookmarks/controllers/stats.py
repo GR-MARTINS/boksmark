@@ -88,3 +88,30 @@ def weekly_stats(bookmark_id):
     return weeks
 
 
+def last_days_stats(days, bookmark_id):
+    date = datetime.today()
+    last_days = []
+
+    for i in range(days):
+        visit = Visit.query.filter(
+            extract("month", Visit.visiting_hours) == date.strftime("%m"),
+            extract("day", Visit.visiting_hours) == date.strftime("%d"),
+            Visit.bookmark_id == bookmark_id
+        ).all()
+        if days == 7:
+            last_days.append(
+                {
+                    "day": date.strftime("%a"),
+                    "number_visits": len(visit)
+                }
+            )
+        else:
+            last_days.append(
+                {
+                    "day": date.strftime("%x"),
+                    "number_visits": len(visit)
+                }
+            )
+        date = date - timedelta(1)
+
+    return last_days
