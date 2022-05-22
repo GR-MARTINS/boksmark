@@ -35,6 +35,7 @@ def monthly_stats(current_month, bookmark_id):
         }
 
     data = []
+    label = []
 
     for i in range(current_month, current_month - 12, -1):
         month = (months.index(months[i]) + 1)
@@ -42,13 +43,9 @@ def monthly_stats(current_month, bookmark_id):
             extract('month', Visit.visiting_hours) == month,
             Visit.bookmark_id == bookmark_id
         ).all()
-        data.append(
-            {
-                "month": months[i],
-                "number_visits": len(visit)
-            }
-        )
-    return data
+        data.append(len(visit))
+        label.append(months[i])
+    return data, label
 
 
 def weekly_stats(bookmark_id):
@@ -67,7 +64,8 @@ def weekly_stats(bookmark_id):
             today + timedelta(6 - int(today.strftime("%u")))
         )
 
-    weeks = []
+    data = []
+    label = []
 
     for i in range(12):
         visit = Visit.query.filter(
@@ -76,21 +74,20 @@ def weekly_stats(bookmark_id):
             ),
             Visit.bookmark_id == bookmark_id
         ).all()
-        weeks.append(
-            {
-                "week": week[0].strftime("%U"),
-                "number_visits": len(visit)
-            }
-        )
+
+        data.append(len(visit))
+        label.append(week[0].strftime("%U"))
+
         week[0] = week[0] - timedelta(7)
         week[1] = week[1] - timedelta(7)
 
-    return weeks
+    return data, label
 
 
 def last_days_stats(days, bookmark_id):
     date = datetime.today()
-    last_days = []
+    data = []
+    label = []
 
     for i in range(days):
         visit = Visit.query.filter(
@@ -99,19 +96,12 @@ def last_days_stats(days, bookmark_id):
             Visit.bookmark_id == bookmark_id
         ).all()
         if days == 7:
-            last_days.append(
-                {
-                    "day": date.strftime("%a"),
-                    "number_visits": len(visit)
-                }
-            )
+            data.append(len(visit))
+            label.append(date.strftime("%a"))
         else:
-            last_days.append(
-                {
-                    "day": date.strftime("%x"),
-                    "number_visits": len(visit)
-                }
-            )
+            data.append(len(visit))
+            label.append(date.strftime("%x"))
+
         date = date - timedelta(1)
 
-    return last_days
+    return data, label
