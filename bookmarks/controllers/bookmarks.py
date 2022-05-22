@@ -16,11 +16,15 @@ from bookmarks.constants import (
     HTTP_400_BAD_REQUEST,
     HTTP_406_NOT_ACCEPTABLE
 )
-from sqlalchemy import extract
+
 from bookmarks.ext.sqlalchemy import db
 from bookmarks.models.tables.bookmarks import Bookmark
 from bookmarks.models.tables.visits import Visit
-from bookmarks.controllers.stats import monthly_stats, weekly_stats, last_days
+from bookmarks.controllers.stats import (
+    monthly_stats,
+    weekly_stats,
+    last_days_stats
+)
 
 bookmarks = Blueprint("bookmaks", __name__, url_prefix="/api/v1/bookmarks")
 
@@ -219,15 +223,27 @@ def get_all_stats():
 
 @bookmarks.get('/stats/<id>')
 def get_one_stats(id=None):
-    months = monthly_stats(5, id)
-    weeks = weekly_stats(id)
-    last_7_days = last_days(7, id)
-    last_30_days = last_days(30, id)
+    months_data, months_label = monthly_stats(5, id)
+    weeks_data, weeks_label = weekly_stats(id)
+    last_7_days_data, last_7_days_label = last_days_stats(7, id)
+    last_30_days_data, last_30_days_label = last_days_stats(30, id)
     return jsonify(
         {
-            "monthly_stats": months,
-            "weekly_stats": weeks,
-            "last_7_days": last_7_days,
-            "last_30_days": last_30_days
+            "monthly_stats": {
+                "data": months_data,
+                "label": months_label
+            },
+            "weekly_stats": {
+                "data": weeks_data,
+                "label": weeks_label
+            },
+            "last_7_days": {
+                "data": last_7_days_data,
+                "label": last_7_days_label
+            },
+            "last_30_days": {
+                "data": last_30_days_data,
+                "label": last_30_days_label
+            },
         }
-    )
+    ), HTTP_200_OK
